@@ -211,7 +211,7 @@ def augment(task, scene, number_of_frames, class_to_aug):
         }
         dict_add(augment_dict)
 
-def augment_enviro(scene, number_of_frames):
+def augment_enviro(scene, number_of_frames, task):
 
     empty = bpy.data.collections['Lights'].objects['Empty']
     plane = bpy.data.collections['Lights'].objects['PlaneLamp']
@@ -225,45 +225,62 @@ def augment_enviro(scene, number_of_frames):
     init_plane_temperature = 7500.0
     init_spot_temperature = 6500.0
 
-    for i in range(1, number_of_frames):
+    plane_strenght = bpy.data.materials["PLANE_MAT"].node_tree.nodes["Emission"].inputs[1]
+    spot_strenght = bpy.data.lights["Spot"].node_tree.nodes["Emission"].inputs[1]
+    plane_temperature = bpy.data.materials["PLANE_MAT"].node_tree.nodes["Blackbody"].inputs[0]
+    spot_temperature = bpy.data.lights["Spot"].node_tree.nodes["Blackbody"].inputs[0]
 
-        #empty augmentation
-        empty.location = empty_init_loc[:] + rand_transform(0, 0, scene.data_generation.empty_z_variation/5, "loc")
-        empty.keyframe_insert(data_path="location", frame = i)
-        empty.rotation_euler = rand_transform(0, 0, scene.data_generation.empty_z_variation_rot, "rot")
-        empty.keyframe_insert(data_path="rotation_euler", frame= i)
+    if (task == "augment"):
+        for i in range(1, number_of_frames):
 
-        #lamps jitter
-        plane.location = plane_init_loc[:] + rand_transform(scene.data_generation.lamps_jitter / 10, scene.data_generation.lamps_jitter / 10, scene.data_generation.lamps_jitter / 10, "loc")
-        plane.keyframe_insert(data_path="location", frame = i)
-        spot.location = spot_init_loc[:] + rand_transform(scene.data_generation.lamps_jitter / 10, scene.data_generation.lamps_jitter / 10, scene.data_generation.lamps_jitter / 10, "loc")
-        spot.keyframe_insert(data_path="location", frame = i)
+            #empty augmentation
+            empty.location = empty_init_loc[:] + rand_transform(0, 0, scene.data_generation.empty_z_variation/5, "loc")
+            empty.keyframe_insert(data_path="location", frame = i)
+            empty.rotation_euler = rand_transform(0, 0, scene.data_generation.empty_z_variation_rot, "rot")
+            empty.keyframe_insert(data_path="rotation_euler", frame= i)
 
-        #lamps strength
-        plane_strenght = bpy.data.materials["PLANE_MAT"].node_tree.nodes["Emission"].inputs[1]
-        spot_strenght = bpy.data.lights["Spot"].node_tree.nodes["Emission"].inputs[1]
-        plane_strenght.default_value = init_plane_strenght - init_plane_strenght * random.uniform(scene.data_generation.lamps_strength/-2 , scene.data_generation.lamps_strength/2)
-        plane_strenght.keyframe_insert(data_path="default_value", frame = i)
-        spot_strenght.default_value = init_spot_strenght - init_spot_strenght * random.uniform(scene.data_generation.lamps_strength/-2 , scene.data_generation.lamps_strength/2)
-        spot_strenght.keyframe_insert(data_path="default_value", frame = i)
+            #lamps jitter
+            plane.location = plane_init_loc[:] + rand_transform(scene.data_generation.lamps_jitter / 10, scene.data_generation.lamps_jitter / 10, scene.data_generation.lamps_jitter / 10, "loc")
+            plane.keyframe_insert(data_path="location", frame = i)
+            spot.location = spot_init_loc[:] + rand_transform(scene.data_generation.lamps_jitter / 10, scene.data_generation.lamps_jitter / 10, scene.data_generation.lamps_jitter / 10, "loc")
+            spot.keyframe_insert(data_path="location", frame = i)
 
-        #lamps temperture
-        plane_temperature = bpy.data.materials["PLANE_MAT"].node_tree.nodes["Blackbody"].inputs[0]
-        spot_temperature = bpy.data.lights["Spot"].node_tree.nodes["Blackbody"].inputs[0]
-        plane_temperature.default_value = init_plane_temperature - init_plane_temperature * random.uniform(scene.data_generation.lamps_temperature/-2 , scene.data_generation.lamps_temperature/2)
-        plane_temperature.keyframe_insert(data_path="default_value", frame = i)
-        spot_temperature.default_value = init_spot_temperature - init_spot_temperature * random.uniform(scene.data_generation.lamps_temperature/-2 , scene.data_generation.lamps_temperature/2)
-        spot_temperature.keyframe_insert(data_path="default_value", frame = i)
+            #lamps strength
+            
+            plane_strenght.default_value = init_plane_strenght - init_plane_strenght * random.uniform(scene.data_generation.lamps_strength/-2 , scene.data_generation.lamps_strength/2)
+            plane_strenght.keyframe_insert(data_path="default_value", frame = i)
+            spot_strenght.default_value = init_spot_strenght - init_spot_strenght * random.uniform(scene.data_generation.lamps_strength/-2 , scene.data_generation.lamps_strength/2)
+            spot_strenght.keyframe_insert(data_path="default_value", frame = i)
 
-    augment_enviro_dict = {
-            'z variation empty': scene.data_generation.empty_z_variation,
-            'rotation variation empty': scene.data_generation.empty_z_variation_rot,
-            'jitter': scene.data_generation.lamps_jitter,
-            'augmented frames envirorment': number_of_frames,
-            'strength variation': scene.data_generation.lamps_strength,
-            'temperature variation': scene.data_generation.lamps_temperature
-        }
-    dict_add(augment_enviro_dict)
+            #lamps temperture
+            
+            plane_temperature.default_value = init_plane_temperature - init_plane_temperature * random.uniform(scene.data_generation.lamps_temperature/-2 , scene.data_generation.lamps_temperature/2)
+            plane_temperature.keyframe_insert(data_path="default_value", frame = i)
+            spot_temperature.default_value = init_spot_temperature - init_spot_temperature * random.uniform(scene.data_generation.lamps_temperature/-2 , scene.data_generation.lamps_temperature/2)
+            spot_temperature.keyframe_insert(data_path="default_value", frame = i)
+
+        augment_enviro_dict = {
+                'z variation empty': scene.data_generation.empty_z_variation,
+                'rotation variation empty': scene.data_generation.empty_z_variation_rot,
+                'jitter': scene.data_generation.lamps_jitter,
+                'augmented frames envirorment': number_of_frames,
+                'strength variation': scene.data_generation.lamps_strength,
+                'temperature variation': scene.data_generation.lamps_temperature
+            }
+        dict_add(augment_enviro_dict)
+
+    elif (task == "clear"):
+
+        bpy.data.materials["PLANE_MAT"].node_tree.animation_data_clear()
+        bpy.data.lights["Spot"].node_tree.animation_data_clear()
+
+        #set default values   
+        plane_strenght.default_value = init_plane_strenght
+        spot_strenght.default_value = init_plane_strenght
+        spot_temperature.default_value = init_spot_temperature 
+        plane_temperature.default_value = init_plane_temperature
+
+
 
 def dict_add(dict):
     GenerationSettings.dict_main |= dict  
@@ -277,27 +294,23 @@ class StoreTransform:
     def update(self):
         objs = bpy.data.collections['DATA'].all_objects
         self.locations = [copy.copy(obj.location) for obj in objs]
-        #self.rotations = [copy.copy(obj.rotation_euler) for obj in objs]
-        print("updating")
-
-    def get_values(self, i):
-        return (self.locations[i])
+        self.rotations = [copy.copy(obj.rotation_euler) for obj in objs]
+        self.scale = [copy.copy(obj.scale) for obj in objs]
 
 def save(saved):
     bpy.data.scenes['Scene'].frame_set(1)
     saved.update()
-    print("saved")
-    print(f'saving {saved.get_values(0)}')
-
+    
 def restore(saved):
     objs = bpy.data.collections['DATA'].all_objects
+    scene = bpy.data.scenes['Scene']  
+    augment_enviro(scene, 0, "clear")
     for i, obj in enumerate(objs):
         obj.animation_data_clear()
-        obj.location = saved.get_values(i)
-        print("restored")
-        print(f'saved object: {saved.get_values(i)}')
-        print(f'real object: {obj.location}')
-
+        obj.location = saved.locations[i]
+        obj.rotation_euler = saved.rotations[i]
+        obj.scale = saved.scale[i]
+        
 saved = StoreTransform()
 
 #UI and Operators
@@ -322,7 +335,6 @@ class RestoreTransform(bpy.types.Operator):
 
     def execute(self, context):        # execute() is called when running the operator.
         global saved
-        print(f'restore pressed {saved.get_values(0)}')
         restore(saved)
         return {'FINISHED'}        # Lets Blender know the operator finished successfully
 
@@ -336,7 +348,6 @@ class JsonExport(bpy.types.Operator):
 
         scene = context.scene
         fp = scene.render.filepath
-        print(f'checked{saved.get_values(0)}')
         with open(fp + 'data' + '.json', 'w') as outfile:
             json.dump(GenerationSettings.dict_main, outfile, indent=4)
 
@@ -402,7 +413,7 @@ class AugmentGenerateEnviro(bpy.types.Operator):
 
         scene = context.scene
         number_of_frames = scene.data_generation.number_of_frames_aug_enviro
-        augment_enviro(scene, number_of_frames)
+        augment_enviro(scene, number_of_frames, "augment")
 
         return {'FINISHED'}            # Lets Blender know the operator finished successfully
 
