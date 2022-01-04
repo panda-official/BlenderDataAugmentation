@@ -277,6 +277,7 @@ class StoreTransform:
         objs = bpy.data.collections['DATA'].all_objects
         self.locations = [obj.location for obj in objs]
         self.rotations = [obj.rotation_euler for obj in objs]
+        print("updating")
 
     def get_values(self, i):
         return (self.locations[i])
@@ -284,29 +285,29 @@ class StoreTransform:
 def save(saved):
     saved.update()
     print("saved")
-    print(saved.get_values(0))
+    print(f'saving {saved.get_values(0)}')
 
 def restore(saved):
     objs = bpy.data.collections['DATA'].all_objects
     for i, obj in enumerate(objs):
         obj.location = saved.get_values(i)
         print("restored")
-        print(saved.get_values(i))
-        print(obj.location)
+        print(f'saved object: {saved.get_values(i)}')
+        print(f'real object: {obj.location}')
 
 saved = StoreTransform()
 
 #UI and Operators
 
-class SaveTransform(bpy.types.Operator):
+class SaveTransformOperator(bpy.types.Operator):
     """Save Transform"""      # Use this as a tooltip for menu items and buttons.
     bl_idname = "transform.save"        # Unique identifier for buttons and menu items to reference.
     bl_label = "Save Transform"         # Display name in the interface.
     bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
 
     def execute(self, context):        # execute() is called when running the operator.
-
-        save()
+        global saved 
+        save(saved)
 
         return {'FINISHED'}            # Lets Blender know the operator finished successfully
 
@@ -317,9 +318,9 @@ class RestoreTransform(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
 
     def execute(self, context):        # execute() is called when running the operator.
-
-        print(saved.get_values(0))
-        restore()
+        global saved
+        print(f'restore pressed {saved.get_values(0)}')
+        restore(saved)
         return {'FINISHED'}        # Lets Blender know the operator finished successfully
 
 class JsonExport(bpy.types.Operator):
@@ -332,7 +333,7 @@ class JsonExport(bpy.types.Operator):
 
         scene = context.scene
         fp = scene.render.filepath
-        print(StoreTransform.saved.locations)
+        print(f'checked{saved.get_values(0)}')
         with open(fp + 'data' + '.json', 'w') as outfile:
             json.dump(GenerationSettings.dict_main, outfile, indent=4)
 
@@ -693,7 +694,7 @@ def menu_func(self, context):
     self.layout.operator(RenderGenerate.bl_idname)
 
 def register():
-    bpy.utils.register_class(SaveTransform)
+    bpy.utils.register_class(SaveTransformOperator)
     bpy.utils.register_class(RestoreTransform)
     bpy.utils.register_class(BbGenerate)
     bpy.utils.register_class(RenderGenerate)
