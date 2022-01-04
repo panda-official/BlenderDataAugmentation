@@ -13,6 +13,7 @@ import mathutils
 import random
 import numpy as np
 import json 
+import copy
 
 
 
@@ -275,14 +276,15 @@ class StoreTransform:
 
     def update(self):
         objs = bpy.data.collections['DATA'].all_objects
-        self.locations = [obj.location for obj in objs]
-        self.rotations = [obj.rotation_euler for obj in objs]
+        self.locations = [copy.copy(obj.location) for obj in objs]
+        #self.rotations = [copy.copy(obj.rotation_euler) for obj in objs]
         print("updating")
 
     def get_values(self, i):
         return (self.locations[i])
 
 def save(saved):
+    bpy.data.scenes['Scene'].frame_set(1)
     saved.update()
     print("saved")
     print(f'saving {saved.get_values(0)}')
@@ -290,6 +292,7 @@ def save(saved):
 def restore(saved):
     objs = bpy.data.collections['DATA'].all_objects
     for i, obj in enumerate(objs):
+        obj.animation_data_clear()
         obj.location = saved.get_values(i)
         print("restored")
         print(f'saved object: {saved.get_values(i)}')
