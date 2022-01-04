@@ -14,6 +14,8 @@ import random
 import numpy as np
 import json 
 
+
+
 def clamp(x, minimum, maximum):
     return max(minimum, min(x, maximum))
 
@@ -268,31 +270,31 @@ def dict_add(dict):
 class StoreTransform:
 
     def __init__(self):
+        #bpy.data.scenes['Scene'].frame_set(1)
+        self.update()
+
+    def update(self):
         objs = bpy.data.collections['DATA'].all_objects
-        print()
-        #bpy.scene.frame_set(1)
         self.locations = [obj.location for obj in objs]
         self.rotations = [obj.rotation_euler for obj in objs]
-        print("created")
-    def update(self):
-        self.initials = StoreTransform()
-        print("updated")
 
+    def get_values(self, i):
+        return (self.locations[i])
 
-def save():
-    StoreTransform.initials = StoreTransform()
+def save(saved):
+    saved.update()
     print("saved")
-    print(StoreTransform.initials.locations)
+    print(saved.get_values(0))
 
-def restore():
+def restore(saved):
     objs = bpy.data.collections['DATA'].all_objects
     for i, obj in enumerate(objs):
-        obj.location = StoreTransform.initials.locations[i]
+        obj.location = saved.get_values(i)
         print("restored")
-        print(StoreTransform.initials.locations[i])
+        print(saved.get_values(i))
         print(obj.location)
-    
 
+saved = StoreTransform()
 
 #UI and Operators
 
@@ -315,10 +317,10 @@ class RestoreTransform(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
 
     def execute(self, context):        # execute() is called when running the operator.
-        
-        restore()
 
-        return {'FINISHED'}            # Lets Blender know the operator finished successfully
+        print(saved.get_values(0))
+        restore()
+        return {'FINISHED'}        # Lets Blender know the operator finished successfully
 
 class JsonExport(bpy.types.Operator):
     """Export JSON"""      # Use this as a tooltip for menu items and buttons.
@@ -330,7 +332,7 @@ class JsonExport(bpy.types.Operator):
 
         scene = context.scene
         fp = scene.render.filepath
-        print(StoreTransform.initials.locations)
+        print(StoreTransform.saved.locations)
         with open(fp + 'data' + '.json', 'w') as outfile:
             json.dump(GenerationSettings.dict_main, outfile, indent=4)
 
