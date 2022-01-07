@@ -14,9 +14,9 @@ import random
 import numpy as np
 import json 
 import copy
-import settings 
-import operators
-import ui
+from . import settings 
+from . import operators
+from . import ui
 
 
 def menu_func(self, context):

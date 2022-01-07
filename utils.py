@@ -6,8 +6,7 @@ import random
 import numpy as np
 import json 
 import copy
-import settings 
-import operators
+from . import settings 
 
 
 def clamp(x, minimum, maximum):

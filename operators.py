@@ -6,8 +6,8 @@ import random
 import numpy as np
 import json 
 import copy
-import settings
-import utils
+from . import settings
+from . import utils
 
 class SaveTransformOperator(bpy.types.Operator):
     """Save Transform"""      # Use this as a tooltip for menu items and buttons.

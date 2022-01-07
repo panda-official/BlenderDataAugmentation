@@ -6,7 +6,6 @@ import random
 import numpy as np
 import json 
 import copy
-import settings
 
 
 class GenerationSettings(bpy.types.PropertyGroup):
