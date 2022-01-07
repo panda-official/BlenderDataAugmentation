@@ -299,5 +299,3 @@ def restore(saved):
         obj.location = saved.locations[i]
         obj.rotation_euler = saved.rotations[i]
         obj.scale = saved.scale[i]
-        
-saved = StoreTransform()

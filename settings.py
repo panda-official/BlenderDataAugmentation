@@ -171,5 +171,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
         min = 0,
         max = 1
         )
-        
+
     dict_main = {}
+
+    saved = utils.StoreTransform()
