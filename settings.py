@@ -7,6 +7,8 @@ import numpy as np
 import json 
 import copy
 
+from . import utils
+
 
 class GenerationSettings(bpy.types.PropertyGroup):
 
@@ -170,7 +172,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
         max = 1
         )
 
-
+    saved = utils.StoreTransform()
 
 
     dict_main = {}

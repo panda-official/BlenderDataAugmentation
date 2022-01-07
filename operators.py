@@ -16,8 +16,7 @@ class SaveTransformOperator(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
 
     def execute(self, context):        # execute() is called when running the operator.
-        global saved 
-        utils.save(saved)
+        utils.save(settings.GenerationSettings.saved)
 
         return {'FINISHED'}            # Lets Blender know the operator finished successfully
 
@@ -28,8 +27,7 @@ class RestoreTransform(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
 
     def execute(self, context):        # execute() is called when running the operator.
-        global saved
-        utils.restore(saved)
+        utils.restore(settings.GenerationSettings.saved)
         return {'FINISHED'}        # Lets Blender know the operator finished successfully
 
 class JsonExport(bpy.types.Operator):
@@ -128,4 +126,3 @@ class RenderAndBbGenerate(bpy.types.Operator):
 
         return {'FINISHED'}            # Lets Blender know the operator finished successfully
 
-saved = utils.StoreTransform()
