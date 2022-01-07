@@ -300,3 +300,4 @@ def restore(saved):
         obj.rotation_euler = saved.rotations[i]
         obj.scale = saved.scale[i]
         
+saved = StoreTransform()
