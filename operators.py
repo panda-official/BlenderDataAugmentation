@@ -16,9 +16,12 @@ class SaveTransformOperator(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
 
     def execute(self, context):        # execute() is called when running the operator.
-        utils.save(settings.GenerationSettings.saved)
-
-        return {'FINISHED'}            # Lets Blender know the operator finished successfully
+        global saved
+        if (saved == None):
+            saved = utils.create()
+        else:
+            utils.save(saved)
+        return {'FINISHED'}                # Lets Blender know the operator finished successfully
 
 class RestoreTransform(bpy.types.Operator):
     """Restore Transform"""      # Use this as a tooltip for menu items and buttons.
@@ -27,8 +30,9 @@ class RestoreTransform(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
 
     def execute(self, context):        # execute() is called when running the operator.
-        utils.restore(settings.GenerationSettings.saved)
-        return {'FINISHED'}        # Lets Blender know the operator finished successfully
+        global saved
+        utils.restore(saved)
+        return {'FINISHED'}          # Lets Blender know the operator finished successfully
 
 class JsonExport(bpy.types.Operator):
     """Export JSON"""      # Use this as a tooltip for menu items and buttons.
@@ -126,3 +130,4 @@ class RenderAndBbGenerate(bpy.types.Operator):
 
         return {'FINISHED'}            # Lets Blender know the operator finished successfully
 
+saved = None

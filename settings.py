@@ -173,5 +173,3 @@ class GenerationSettings(bpy.types.PropertyGroup):
         )
 
     dict_main = {}
-
-    saved = utils.StoreTransform()

@@ -286,6 +286,10 @@ class StoreTransform:
         self.rotations = [copy.copy(obj.rotation_euler) for obj in objs]
         self.scale = [copy.copy(obj.scale) for obj in objs]
 
+def create():
+    created = StoreTransform()
+    return created
+
 def save(saved):
     bpy.data.scenes['Scene'].frame_set(1)
     saved.update()
