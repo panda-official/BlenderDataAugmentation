@@ -111,9 +111,7 @@ def generate_bb_and_render(task, rotation_labels, scene, number_of_frames, class
     print(fp)
     scene.render.image_settings.file_format = 'PNG' # set output format to .png
         
-    for i in range(1, number_of_frames):
-        if (i==0):
-            continue
+    for i in range(1, number_of_frames + 1):
         # set current frame
         scene.frame_set(i)
         # set output path so render won't get overwritten
@@ -125,8 +123,6 @@ def generate_bb_and_render(task, rotation_labels, scene, number_of_frames, class
         
         # Bounding Box information:
         camera = bpy.data.collections['Camera'].all_objects[0]
-             
-        
         with open(fp + str(i) + '.txt','w+') as datei:
             for k in range(0, classes_count): 
 
