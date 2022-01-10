@@ -127,7 +127,7 @@ class RenderAndBbGenerate(bpy.types.Operator):
 
 class PreviewGenerate(bpy.types.Operator):
     """Generate Previews with Bounding Boxes"""      # Use this as a tooltip for menu items and buttons.
-    bl_idname = "preview.generatee"        # Unique identifier for buttons and menu items to reference.
+    bl_idname = "preview.generate"        # Unique identifier for buttons and menu items to reference.
     bl_label = "Preview"         # Display name in the interface.
     bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
 

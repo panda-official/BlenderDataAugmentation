@@ -44,8 +44,8 @@ class DataPanel(bpy.types.Panel):
         row3 = box1.row()
         row3.prop(data_generation, "preview_frames")
         row3.prop(data_generation, "res_scale")
-        row4 = box1.row("preview.generate")
-        row4.operator
+        row4 = box1.row()
+        row4.operator("preview.generate")
         box2 = layout.box()
         box2.label(text="Generate")
         box2.operator("render_and_bb.generate")

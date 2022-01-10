@@ -41,7 +41,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
 
     
     res_scale : bpy.props.FloatProperty(
-        name = "resolutuon scale",
+        name = "resolution scale",
         description="Scale of resolution for faster previews rendering",
         default = 1,
         min = 0,
@@ -59,6 +59,14 @@ class GenerationSettings(bpy.types.PropertyGroup):
         min = 1,
         max = 250000
         )
+        
+    rotation_variation_X : bpy.props.FloatProperty(
+        name = "X",
+        description="Variation of rotation in X axis in degrees",
+        default = 0,
+        min = 0,
+        max = 360
+        )
 
     rotation_variation_Y : bpy.props.FloatProperty(
         name = "Y",
@@ -75,6 +83,8 @@ class GenerationSettings(bpy.types.PropertyGroup):
         min = 0,
         max = 360
         )
+        
+
     translation_variation_X : bpy.props.FloatProperty(
         name = "X",
         description="Variation of translation in X axis in meters",

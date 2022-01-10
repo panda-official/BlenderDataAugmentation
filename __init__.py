@@ -8,10 +8,9 @@ bl_info = {
 
 import bpy
 
-from . import settings 
+from . import settings
 from . import operators
 from . import ui
-
 
 def menu_func(self, context):
     self.layout.operator(operators.BbGenerate.bl_idname)
