@@ -1,9 +1,5 @@
 import bpy
 
-
-
-
-
 class RecoverPanel(bpy.types.Panel):
     bl_idname = "RECOVER_PANEL"
     bl_label = "Recover and Save Data"
@@ -38,16 +34,25 @@ class DataPanel(bpy.types.Panel):
         scene = context.scene
         data_generation = scene.data_generation
         box = layout.box()
-        box.label(text="Generate Data")
+        box.label(text="Generation Settings")
         row1 = box.row()
         row1.prop(data_generation, "classes_count")
         row1.prop(data_generation, "rotation_labels")
         row1.prop(data_generation, "number_of_frames")
-        box.operator("render_and_bb.generate")
-        row = box.row()
+        box1 = layout.box()
+        box1.label(text="Preview")
+        row3 = box1.row()
+        row3.prop(data_generation, "preview_frames")
+        row3.prop(data_generation, "res_scale")
+        row4 = box1.row("preview.generate")
+        row4.operator
+        box2 = layout.box()
+        box2.label(text="Generate")
+        box2.operator("render_and_bb.generate")
+        row = box2.row()
         row.operator("render.generate")
         row.operator("bb.generate")
-        row2 = box.row()
+        row2 = box2.row()
         row2.operator("json.export")
 
 class AugmentationPanel(bpy.types.Panel):

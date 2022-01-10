@@ -110,7 +110,14 @@ def generate_bb_and_render(task, rotation_labels, scene, number_of_frames, class
     fp = scene.render.filepath # get existing output path
     print(fp)
     scene.render.image_settings.file_format = 'PNG' # set output format to .png
-        
+
+    # save initial resolution and set preview resolution
+    if (task=="preview"):
+        initial_x_res = scene.render.resolution_x
+        initial_y_res =scene.render.resolution_y
+        scene.render.resolution_x = scene.render.resolution_x * scene.data_generation.res_scale
+        scene.render.resolution_y = scene.render.resolution_y * scene.data_generation.res_scale
+
     for i in range(1, number_of_frames + 1):
         # set current frame
         scene.frame_set(i)
@@ -150,6 +157,11 @@ def generate_bb_and_render(task, rotation_labels, scene, number_of_frames, class
                     line = str(k)+' '+str(x_norm)+' '+str(y_norm)+' '+str(w_norm)+' '+str(h_norm)+' '+matrix_string+ '\n'
                     datei.write(line)
         
+        # restore resolution
+        if (task=="preview"):
+            scene.render.resolution_x = initial_x_res 
+            scene.render.resolution_y = initial_y_res 
+
         print(f'Frames {i} of {number_of_frames} rendered, to cancell close blender window')
         
     # restore the filepath
@@ -298,3 +310,6 @@ def restore(saved):
         obj.location = saved.locations[i]
         obj.rotation_euler = saved.rotations[i]
         obj.scale = saved.scale[i]
+
+def preview():
+    pass

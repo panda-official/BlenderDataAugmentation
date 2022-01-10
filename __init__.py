@@ -26,6 +26,7 @@ classes = (
     operators.AugmentGenerate,
     operators.JsonExport,
     operators.AugmentGenerateEnviro,
+    operators.PreviewGenerate,
     settings.GenerationSettings,
     ui.RecoverPanel,
     ui.DataPanel,

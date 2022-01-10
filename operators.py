@@ -125,4 +125,19 @@ class RenderAndBbGenerate(bpy.types.Operator):
 
         return {'FINISHED'}            # Lets Blender know the operator finished successfully
 
+class PreviewGenerate(bpy.types.Operator):
+    """Generate Previews with Bounding Boxes"""      # Use this as a tooltip for menu items and buttons.
+    bl_idname = "preview.generatee"        # Unique identifier for buttons and menu items to reference.
+    bl_label = "Preview"         # Display name in the interface.
+    bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
+
+    def execute(self, context):        # execute() is called when running the operator.
+        task= "preview"
+        scene = context.scene
+        rotation_labels = context.scene.data_generation.rotation_labels
+        number_of_frames = context.scene.data_generation.preview_frames
+        classes_count = context.scene.data_generation.classes_count
+        utils.generate_bb_and_render(task, rotation_labels, scene, number_of_frames, classes_count)
+        return {'FINISHED'}            # Lets Blender know the operator finished successfully
+
 saved = None
