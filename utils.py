@@ -4,7 +4,6 @@ import math
 import mathutils
 import random
 import numpy as np
-import json 
 import copy
 from . import settings 
 
@@ -126,8 +125,7 @@ def generate_bb_and_render(task, rotation_labels, scene, number_of_frames, class
         
         # Bounding Box information:
         camera = bpy.data.collections['Camera'].all_objects[0]
-        
-        
+             
         
         with open(fp + str(i) + '.txt','w+') as datei:
             for k in range(0, classes_count): 
@@ -156,6 +154,7 @@ def generate_bb_and_render(task, rotation_labels, scene, number_of_frames, class
                     line = str(k)+' '+str(x_norm)+' '+str(y_norm)+' '+str(w_norm)+' '+str(h_norm)+' '+matrix_string+ '\n'
                     datei.write(line)
         
+        print(f'Frames {i} of {number_of_frames} rendered, to cancell close blender window')
         
     # restore the filepath
     scene.render.filepath = fp
