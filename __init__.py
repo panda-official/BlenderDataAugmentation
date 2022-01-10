@@ -7,13 +7,7 @@ bl_info = {
 }
 
 import bpy
-import bpy_extras
-import math
-import mathutils
-import random
-import numpy as np
-import json 
-import copy
+
 from . import settings 
 from . import operators
 from . import ui
@@ -48,9 +42,5 @@ def unregister():
     for cls in classes:
         bpy.utils.unregister_class(cls)
 
-# This allows you to run the script directly from Blender's Text editor
-# to test the add-on without having to install it.
 
-if __name__ == "__main__":
-    register()
 

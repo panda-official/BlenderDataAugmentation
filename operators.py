@@ -1,11 +1,6 @@
 import bpy
-import bpy_extras
-import math
-import mathutils
-import random
 import numpy as np
 import json 
-import copy
 from . import settings
 from . import utils
 
