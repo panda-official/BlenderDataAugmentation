@@ -5,6 +5,16 @@ from . import utils
 
 class GenerationSettings(bpy.types.PropertyGroup):
 
+    #Load Settings
+
+    json_path : bpy.props.StringProperty(
+        name="",
+        description="Path to Directory",
+        default="",
+        maxlen=1024,
+        subtype='FILE_PATH')
+
+
     #Generation Settings
 
     rotation_labels : bpy.props.BoolProperty(

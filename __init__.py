@@ -26,10 +26,12 @@ classes = (
     operators.JsonExport,
     operators.AugmentGenerateEnviro,
     operators.PreviewGenerate,
+    operators.LoadData,
     settings.GenerationSettings,
     ui.RecoverPanel,
     ui.DataPanel,
     ui.AugmentationPanel,
+    ui.LoadPanel,
 )
 
 def register():

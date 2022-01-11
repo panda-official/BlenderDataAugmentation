@@ -17,6 +17,26 @@ class RecoverPanel(bpy.types.Panel):
         box.operator("transform.save")
         box.operator("transform.restore")
 
+class LoadPanel(bpy.types.Panel):
+    bl_idname = "LOAD_PANEL"
+    bl_label = "Load from file"
+    bl_space_type = 'PROPERTIES'
+    bl_region_type = 'WINDOW'
+    bl_context = "render"
+
+    def draw_header(self, context):
+        layout = self.layout
+        layout.label(text="PANDA")
+
+    def draw(self, context):
+        layout = self.layout
+        scene = context.scene
+        data_generation = scene.data_generation
+        box = layout.box()
+        row = box.row()
+        row.prop(data_generation, "json_path")
+        row.operator("load.data")
+
 class DataPanel(bpy.types.Panel):
     bl_idname = "DATA_PANEL"
     bl_label = "Data Generation"

@@ -4,6 +4,16 @@ import json
 from . import settings
 from . import utils
 
+class LoadData(bpy.types.Operator):
+    """Load JSON and augment data and envirorment"""      # Use this as a tooltip for menu items and buttons.
+    bl_idname = "load.data"        # Unique identifier for buttons and menu items to reference.
+    bl_label = "Augment from JSON"         # Display name in the interface.
+    bl_options = {'REGISTER', 'UNDO'}      # Enable undo for the operator.
+
+    def execute(self, context):        # execute() is called when running the operator.
+        utils.load_json()    
+        return {'FINISHED'}                # Lets Blender know the operator finished successfully
+
 class SaveTransformOperator(bpy.types.Operator):
     """Save Transform"""      # Use this as a tooltip for menu items and buttons.
     bl_idname = "transform.save"        # Unique identifier for buttons and menu items to reference.

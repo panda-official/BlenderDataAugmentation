@@ -5,6 +5,8 @@ import mathutils
 import random
 import numpy as np
 import copy
+import json
+
 from . import settings 
 
 
@@ -202,10 +204,12 @@ def augment(task, scene, number_of_frames, class_to_aug):
         class_to_aug_str = (str(class_to_aug)) 
         class_to_aug_str = class_to_aug_str.split('"')[1]
         augment_dict = {
-            f'translation variations {class_to_aug_str}': str(scene.data_generation.translation_variation_X) + ' ' + str(scene.data_generation.translation_variation_Y) + ' ' + str (scene.data_generation.translation_variation_Z),
-            f'rotation variations {class_to_aug_str}': str(scene.data_generation.rotation_variation_X) + ' ' + str(scene.data_generation.rotation_variation_Y) + ' ' + str (scene.data_generation.rotation_variation_Z),
-            f'scale variations {class_to_aug_str}': str(scene.data_generation.scale_variation_X) + ' ' + str(scene.data_generation.scale_variation_Y) + ' ' + str (scene.data_generation.scale_variation_Z),
-            f'augmented frames {class_to_aug_str}': number_of_frames
+            f'{class_to_aug_str}': {
+                'translation variations': str(scene.data_generation.translation_variation_X) + ' ' + str(scene.data_generation.translation_variation_Y) + ' ' + str (scene.data_generation.translation_variation_Z),
+                'rotation variations' : str(scene.data_generation.rotation_variation_X) + ' ' + str(scene.data_generation.rotation_variation_Y) + ' ' + str (scene.data_generation.rotation_variation_Z),
+                'scale variations': str(scene.data_generation.scale_variation_X) + ' ' + str(scene.data_generation.scale_variation_Y) + ' ' + str (scene.data_generation.scale_variation_Z),
+                'augmented frames': number_of_frames
+            }
         }
         dict_add(augment_dict)
 
@@ -258,12 +262,14 @@ def augment_enviro(scene, number_of_frames, task):
             spot_temperature.keyframe_insert(data_path="default_value", frame = i)
 
         augment_enviro_dict = {
-                'z variation empty': scene.data_generation.empty_z_variation,
-                'rotation variation empty': scene.data_generation.empty_z_variation_rot,
-                'jitter': scene.data_generation.lamps_jitter,
-                'augmented frames envirorment': number_of_frames,
-                'strength variation': scene.data_generation.lamps_strength,
-                'temperature variation': scene.data_generation.lamps_temperature
+                'enviro': {
+                    'z variation empty': scene.data_generation.empty_z_variation,
+                    'rotation variation empty': scene.data_generation.empty_z_variation_rot,
+                    'jitter': scene.data_generation.lamps_jitter,
+                    'augmented frames envirorment': number_of_frames,
+                    'strength variation': scene.data_generation.lamps_strength,
+                    'temperature variation': scene.data_generation.lamps_temperature
+                }
             }
         dict_add(augment_enviro_dict)
 
@@ -311,5 +317,12 @@ def restore(saved):
         obj.rotation_euler = saved.rotations[i]
         obj.scale = saved.scale[i]
 
-def preview():
+def load_json(scene):
     pass
+    """
+    f = open(scene.data_generation.json_path)
+    data = json.load(f)
+
+    for key in data:
+        pass
+    """
