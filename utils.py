@@ -6,6 +6,7 @@ import random
 import numpy as np
 import copy
 import json
+import gradio as gr
 
 from . import settings 
 
@@ -318,11 +319,10 @@ def restore(saved):
         obj.scale = saved.scale[i]
 
 def load_json(scene):
-    pass
-    """
     f = open(scene.data_generation.json_path)
     data = json.load(f)
 
     for key in data:
-        pass
-    """
+        if (key == 'enviro'):
+            for key in 'enviro':
+                print('enviro')

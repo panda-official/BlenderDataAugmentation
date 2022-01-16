@@ -36,7 +36,7 @@ class LoadPanel(bpy.types.Panel):
         row = box.row()
         row.prop(data_generation, "json_path")
         row.operator("load.data")
-
+    
 class DataPanel(bpy.types.Panel):
     bl_idname = "DATA_PANEL"
     bl_label = "Data Generation"

@@ -12,6 +12,7 @@ from . import settings
 from . import operators
 from . import ui
 
+
 def menu_func(self, context):
     self.layout.operator(operators.BbGenerate.bl_idname)
     self.layout.operator(operators.RenderGenerate.bl_idname)

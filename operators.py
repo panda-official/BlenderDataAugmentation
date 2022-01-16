@@ -11,7 +11,8 @@ class LoadData(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}      # Enable undo for the operator.
 
     def execute(self, context):        # execute() is called when running the operator.
-        utils.load_json()    
+        scene = context.scene
+        utils.load_json(scene)    
         return {'FINISHED'}                # Lets Blender know the operator finished successfully
 
 class SaveTransformOperator(bpy.types.Operator):
