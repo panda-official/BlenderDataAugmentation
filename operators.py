@@ -1,6 +1,6 @@
 import bpy
 import numpy as np
-import json 
+import json
 from . import settings
 from . import utils
 
@@ -12,7 +12,7 @@ class LoadData(bpy.types.Operator):
 
     def execute(self, context):        # execute() is called when running the operator.
         scene = context.scene
-        utils.load_json(scene)    
+        utils.load_json(scene)
         return {'FINISHED'}                # Lets Blender know the operator finished successfully
 
 class SaveTransformOperator(bpy.types.Operator):
@@ -72,7 +72,7 @@ class BbGenerate(bpy.types.Operator):
 
         return {'FINISHED'}            # Lets Blender know the operator finished successfully
 
-class RenderGenerate(bpy.types.Operator): 
+class RenderGenerate(bpy.types.Operator):
     """Generate Renders"""      # Use this as a tooltip for menu items and buttons.
     bl_idname = "render.generate"        # Unique identifier for buttons and menu items to reference.
     bl_label = "Generate Renders"         # Display name in the interface.
@@ -89,7 +89,7 @@ class RenderGenerate(bpy.types.Operator):
 
         return {'FINISHED'}            # Lets Blender know the operator finished successfully
 
-class AugmentGenerate(bpy.types.Operator): 
+class AugmentGenerate(bpy.types.Operator):
     """Augment selected class"""      # Use this as a tooltip for menu items and buttons.
     bl_idname = "augment.generate"        # Unique identifier for buttons and menu items to reference.
     bl_label = "Augment class"         # Display name in the interface.

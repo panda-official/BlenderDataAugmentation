@@ -30,7 +30,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
         min = 1,
         max = 100000
         )
-    
+
     classes_count : bpy.props.IntProperty(
         name = "Classes",
         description="number of classes",
@@ -49,7 +49,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
         max = 1000
         )
 
-    
+
     res_scale : bpy.props.FloatProperty(
         name = "resolution scale",
         description="Scale of resolution for faster previews rendering",
@@ -57,9 +57,9 @@ class GenerationSettings(bpy.types.PropertyGroup):
         min = 0,
         max = 1
         )
-    
 
-    
+
+
     #Data Augmentation Settings
 
     number_of_frames_aug : bpy.props.IntProperty(
@@ -69,7 +69,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
         min = 1,
         max = 250000
         )
-        
+
     rotation_variation_X : bpy.props.FloatProperty(
         name = "X",
         description="Variation of rotation in X axis in degrees",
@@ -93,7 +93,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
         min = 0,
         max = 360
         )
-        
+
 
     translation_variation_X : bpy.props.FloatProperty(
         name = "X",
@@ -118,7 +118,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
         min = 0,
         max = 2
         )
-    
+
     scale_variation_X : bpy.props.FloatProperty(
         name = "X",
         description="Variation of scale in X axis in degrees",
@@ -143,7 +143,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
         max = 2
         )
 
-    
+
     bpy.types.Scene.collection_to_augment = bpy.props.PointerProperty(
         name="Class to Augment",
         type=bpy.types.Collection)

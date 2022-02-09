@@ -8,7 +8,7 @@ import copy
 import json
 import gradio as gr
 
-from . import settings 
+from . import settings
 
 
 def clamp(x, minimum, maximum):
@@ -96,20 +96,20 @@ def camera_view_bounds_2d(scene, cam_ob, me_ob):
 def get_rotation_matrix(obj):
 
     #get object rotation in euler
-    rot_euler = obj.rotation_euler 
+    rot_euler = obj.rotation_euler
     #convert euler rotation to rotation matrix
     rotation_matrix = mathutils.Euler(rot_euler).to_matrix()
 
-    #create string with rotation matrix    
+    #create string with rotation matrix
     matrix_string = ""
     for k in range(3):
         matrix_string += str(rotation_matrix[0][k]) + " " + str(rotation_matrix[1][k]) + " " + str(rotation_matrix[2][k]) + " "
     matrix_string = matrix_string[:-1]
 
     return matrix_string
-    
+
 def generate_bb_and_render(task, rotation_labels, scene, number_of_frames, classes_count):
-    
+
     fp = scene.render.filepath # get existing output path
     print(fp)
     scene.render.image_settings.file_format = 'PNG' # set output format to .png
@@ -125,23 +125,23 @@ def generate_bb_and_render(task, rotation_labels, scene, number_of_frames, class
         # set current frame
         scene.frame_set(i)
         # set output path so render won't get overwritten
-        scene.render.filepath = fp + str(i)       
-        
+        scene.render.filepath = fp + str(i)
+
         # Render Frame if mode set to "render" or "bb+render"
         if (task != "bb"):
             bpy.ops.render.render(write_still=True)
-        
+
         # Bounding Box information:
         camera = bpy.data.collections['Camera'].all_objects[0]
         with open(fp + str(i) + '.txt','w+') as datei:
-            for k in range(0, classes_count): 
+            for k in range(0, classes_count):
 
                 objs = bpy.data.collections[f"Class{k}"].all_objects
 
                 for obj in objs:
 
                     location = camera_view_bounds_2d(scene, camera, obj)
-                        
+
                     x,y,w,h = location
                     if (x==0 and y==0 and w==0 and h==0):
                         continue
@@ -150,45 +150,45 @@ def generate_bb_and_render(task, rotation_labels, scene, number_of_frames, class
                     x_norm = round(x/scene.render.resolution_x, 6)
                     y_norm = round(y/scene.render.resolution_y, 6)
                     w_norm = round(w/scene.render.resolution_x, 6)
-                    h_norm = round(h/scene.render.resolution_y, 6)     
-                    
+                    h_norm = round(h/scene.render.resolution_y, 6)
+
                     if (rotation_labels==True):
                         matrix_string = get_rotation_matrix(obj)
                     else:
                         matrix_string = ""
-                    
+
                     line = str(k)+' '+str(x_norm)+' '+str(y_norm)+' '+str(w_norm)+' '+str(h_norm)+' '+matrix_string+ '\n'
                     datei.write(line)
-        
+
         # restore resolution
         if (task=="preview"):
-            scene.render.resolution_x = initial_x_res 
-            scene.render.resolution_y = initial_y_res 
+            scene.render.resolution_x = initial_x_res
+            scene.render.resolution_y = initial_y_res
 
         print(f'Frames {i} of {number_of_frames} rendered, to cancell close blender window')
-        
+
     # restore the filepath
     scene.render.filepath = fp
 
     # Set Scene
-    scene = bpy.context.scene   
+    scene = bpy.context.scene
 
 def rand_transform(x, y, z, task):
-    
+
     if (task == "loc"):
         transform = np.array([random.uniform(x/-2, x/2), random.uniform(y/-2, y/2), random.uniform(z/-2, z/2)])
     elif (task == "scale"):
         transform = np.array([random.uniform(x/-2 + 1, x/2 + 1), random.uniform(y/-2 + 1, y/2 + 1), random.uniform(z/-2 + 1, z/2 + 1)])
     elif (task == "rot"):
-        x = x * math.pi / 180 
+        x = x * math.pi / 180
         y = y * math.pi / 180
-        z = z * math.pi / 180 
+        z = z * math.pi / 180
         transform = np.array([random.uniform(x/-2, x/2), random.uniform(y/-2, y/2), random.uniform(z/-2, z/2)])
     return transform
 
 def augment(task, scene, number_of_frames, class_to_aug):
 
-    if (task == "generate"): 
+    if (task == "generate"):
 
         objs = class_to_aug.all_objects
 
@@ -202,7 +202,7 @@ def augment(task, scene, number_of_frames, class_to_aug):
                 obj.scale = rand_transform(scene.data_generation.scale_variation_X, scene.data_generation.scale_variation_Y, scene.data_generation.scale_variation_Z, "scale")
                 obj.keyframe_insert(data_path="scale", frame= i)
 
-        class_to_aug_str = (str(class_to_aug)) 
+        class_to_aug_str = (str(class_to_aug))
         class_to_aug_str = class_to_aug_str.split('"')[1]
         augment_dict = {
             f'{class_to_aug_str}': {
@@ -249,14 +249,14 @@ def augment_enviro(scene, number_of_frames, task):
             spot.keyframe_insert(data_path="location", frame = i)
 
             #lamps strength
-            
+
             plane_strenght.default_value = init_plane_strenght - init_plane_strenght * random.uniform(scene.data_generation.lamps_strength/-2 , scene.data_generation.lamps_strength/2)
             plane_strenght.keyframe_insert(data_path="default_value", frame = i)
             spot_strenght.default_value = init_spot_strenght - init_spot_strenght * random.uniform(scene.data_generation.lamps_strength/-2 , scene.data_generation.lamps_strength/2)
             spot_strenght.keyframe_insert(data_path="default_value", frame = i)
 
             #lamps temperture
-            
+
             plane_temperature.default_value = init_plane_temperature - init_plane_temperature * random.uniform(scene.data_generation.lamps_temperature/-2 , scene.data_generation.lamps_temperature/2)
             plane_temperature.keyframe_insert(data_path="default_value", frame = i)
             spot_temperature.default_value = init_spot_temperature - init_spot_temperature * random.uniform(scene.data_generation.lamps_temperature/-2 , scene.data_generation.lamps_temperature/2)
@@ -279,14 +279,14 @@ def augment_enviro(scene, number_of_frames, task):
         bpy.data.materials["PLANE_MAT"].node_tree.animation_data_clear()
         bpy.data.lights["Spot"].node_tree.animation_data_clear()
 
-        #set default values   
+        #set default values
         plane_strenght.default_value = init_plane_strenght
         spot_strenght.default_value = init_plane_strenght
-        spot_temperature.default_value = init_spot_temperature 
+        spot_temperature.default_value = init_spot_temperature
         plane_temperature.default_value = init_plane_temperature
 
 def dict_add(dict):
-    settings.GenerationSettings.dict_main |= dict  
+    settings.GenerationSettings.dict_main |= dict
 
 class StoreTransform:
 
@@ -307,10 +307,10 @@ def create():
 def save(saved):
     bpy.data.scenes['Scene'].frame_set(1)
     saved.update()
-    
+
 def restore(saved):
     objs = bpy.data.collections['DATA'].all_objects
-    scene = bpy.data.scenes['Scene']  
+    scene = bpy.data.scenes['Scene']
     augment_enviro(scene, 0, "clear")
     for i, obj in enumerate(objs):
         obj.animation_data_clear()
@@ -322,7 +322,74 @@ def load_json(scene):
     f = open(scene.data_generation.json_path)
     data = json.load(f)
 
-    for key in data:
-        if (key == 'enviro'):
-            for key in 'enviro':
-                print('enviro')
+    #Load Envirorment augmentation from JSON
+
+    enviro_dict = data.get('enviro')
+    set_enviro(enviro_dict)
+    print('loaded Envirorment')
+
+    #Load Classes augmentation from JSON
+
+    for i in range(0,50):
+        if (data.get(f'Class{i}') is not None):
+            class_dict = data.get(f'Class{i}')
+            set_class(class_dict, f'Class{i}')
+            print(f'loaded Class{i}')
+        else:
+            print(f'{i} Classes loaded in total')
+            break
+
+    #Load Negatice Classes augmentation from JSON
+
+    for i in range(0,10):
+        if (data.get(f'Negative{i}') is not None):
+            negative_dict = data.get(f'Negative{i}')
+            set_class(class_dict, f'Negative{i}')
+            print(f'loaded Negative{i}')
+        else:
+            print(f'{i} Negatives loaded in total')
+            break
+
+def set_enviro(dict):
+    #Used for augumenting the envirorment from dictionary
+
+    scene = bpy.data.scenes['Scene']
+
+    scene.data_generation.empty_z_variation = float(dict.get('z variation empty'))
+    scene.data_generation.empty_z_variation_rot = float(dict.get('rotation variation empty'))
+    scene.data_generation.lamps_jitter = float(dict.get('jitter'))
+    scene.data_generation.number_of_frames_aug_enviro = int(dict.get('augmented frames envirorment'))
+    scene.data_generation.lamps_strength = float(dict.get('strength variation'))
+    scene.data_generation.lamps_temperature = float(dict.get('temperature variation'))
+
+    augment_enviro(scene, scene.data_generation.number_of_frames_aug_enviro, 'augment')
+
+def set_class(dict, name):
+    scene = bpy.data.scenes['Scene']
+
+    scene.data_generation.translation_variation_X = split_three(dict.get('translation variations'), 'x')
+    scene.data_generation.translation_variation_Y = split_three(dict.get('translation variations'), 'y')
+    scene.data_generation.translation_variation_Z = split_three(dict.get('translation variations'), 'z')
+    scene.data_generation.rotation_variation_X = split_three(dict.get('rotation variations'), 'x')
+    scene.data_generation.rotation_variation_Y = split_three(dict.get('rotation variations'), 'y')
+    scene.data_generation.rotation_variation_Z = split_three(dict.get('rotation variations'), 'z')
+    scene.data_generation.scale_variation_X = split_three(dict.get('scale variations'), 'x')
+    scene.data_generation.scale_variation_Y = split_three(dict.get('scale variations'), 'y')
+    scene.data_generation.scale_variation_Z = split_three(dict.get('scale variations'), 'z')
+    scene.data_generation.number_of_frames_aug = dict.get('augmented frames')
+
+    class_to_augment = bpy.data.collections[f'{name}']
+    augment('generate', scene, scene.data_generation.number_of_frames_aug, class_to_augment)
+
+def split_three(triple, selected):
+    separated = triple.split(' ')
+    if (selected == 'x'):
+        out = float(separated[0])
+    elif (selected == 'y'):
+        out = float(separated[1])
+    elif (selected == 'z'):
+        out = float(separated[2])
+    return out
+
+
+
