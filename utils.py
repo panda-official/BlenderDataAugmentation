@@ -6,7 +6,7 @@ import random
 import numpy as np
 import copy
 import json
-import gradio as gr
+import web_interface as gr
 
 from . import settings
 
@@ -321,6 +321,10 @@ def restore(saved):
 def load_json(scene):
     f = open(scene.data_generation.json_path)
     data = json.load(f)
+    print('loading JSON')
+    augment_from_json(data)
+
+def augment_from_json(data):
 
     #Load Envirorment augmentation from JSON
 
@@ -344,11 +348,12 @@ def load_json(scene):
     for i in range(0,10):
         if (data.get(f'Negative{i}') is not None):
             negative_dict = data.get(f'Negative{i}')
-            set_class(class_dict, f'Negative{i}')
+            set_class(negative_dict, f'Negative{i}')
             print(f'loaded Negative{i}')
         else:
             print(f'{i} Negatives loaded in total')
             break
+    print(f'Succsefully loaded {f}')
 
 def set_enviro(dict):
     #Used for augumenting the envirorment from dictionary
@@ -391,5 +396,24 @@ def split_three(triple, selected):
         out = float(separated[2])
     return out
 
+def count_json_classes(data):
+    count_class = 0
+    count_negative = 0
 
+    for i in range(0,50):
+        if (data.get(f'Class{i}') is not None):
+            pass
+        else:
+            count_class = i
+            break
+
+    for i in range(0,10):
+        if (data.get(f'Negative{i}') is not None):
+            pass
+        else:
+            count_negative = i
+            break
+
+    total_count = count_class + count_negative
+    return total_count
 
