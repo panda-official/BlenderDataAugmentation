@@ -6,7 +6,7 @@ import random
 import numpy as np
 import copy
 import json
-import web_interface as gr
+from time import perf_counter
 
 from . import settings
 
@@ -174,7 +174,6 @@ def generate_bb_and_render(task, rotation_labels, scene, number_of_frames, class
     scene = bpy.context.scene
 
 def rand_transform(x, y, z, task):
-
     if (task == "loc"):
         transform = np.array([random.uniform(x/-2, x/2), random.uniform(y/-2, y/2), random.uniform(z/-2, z/2)])
     elif (task == "scale"):
@@ -186,6 +185,7 @@ def rand_transform(x, y, z, task):
         transform = np.array([random.uniform(x/-2, x/2), random.uniform(y/-2, y/2), random.uniform(z/-2, z/2)])
     return transform
 
+
 def augment(task, scene, number_of_frames, class_to_aug):
 
     if (task == "generate"):
@@ -193,7 +193,7 @@ def augment(task, scene, number_of_frames, class_to_aug):
         objs = class_to_aug.all_objects
 
         for obj in objs:
-            object_initial_location = obj.location
+            object_initial_location =copy.copy(obj.location)
             for i in range(1, number_of_frames):
                 obj.rotation_euler = rand_transform(scene.data_generation.rotation_variation_X, scene.data_generation.rotation_variation_Y, scene.data_generation.rotation_variation_Z, "rot")
                 obj.keyframe_insert(data_path="rotation_euler", frame= i)
@@ -201,6 +201,8 @@ def augment(task, scene, number_of_frames, class_to_aug):
                 obj.keyframe_insert(data_path="location", frame= i)
                 obj.scale = rand_transform(scene.data_generation.scale_variation_X, scene.data_generation.scale_variation_Y, scene.data_generation.scale_variation_Z, "scale")
                 obj.keyframe_insert(data_path="scale", frame= i)
+                print(obj.rotation_euler)
+
 
         class_to_aug_str = (str(class_to_aug))
         class_to_aug_str = class_to_aug_str.split('"')[1]

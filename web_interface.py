@@ -1,5 +1,5 @@
-from __future__ import annotations
-import web_interface as gr
+#from __future__ import annotations
+import gradio as gr
 import cv2
 import bpy
 
