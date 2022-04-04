@@ -12,7 +12,6 @@ from . import settings
 from . import operators
 from . import ui
 
-
 def menu_func(self, context):
     self.layout.operator(operators.BbGenerate.bl_idname)
     self.layout.operator(operators.RenderGenerate.bl_idname)
@@ -35,13 +34,13 @@ classes = (
     ui.LoadPanel,
 )
 
-def register():
+def register():         #runned when enabling the addon
     for cls in classes:
         bpy.utils.register_class(cls)
     bpy.types.VIEW3D_MT_object.append(menu_func)  # Adds the new operator to an existing menu.
     bpy.types.Scene.data_generation = bpy.props.PointerProperty(type=settings.GenerationSettings)
 
-def unregister():
+def unregister():           #runned when disabling the addon
     for cls in classes:
         bpy.utils.unregister_class(cls)
 

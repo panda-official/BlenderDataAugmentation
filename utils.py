@@ -10,11 +10,12 @@ from time import perf_counter
 
 from . import settings
 
+#Augmentation and generation
 
 def clamp(x, minimum, maximum):
     return max(minimum, min(x, maximum))
 
-def camera_view_bounds_2d(scene, cam_ob, me_ob):
+def camera_view_bounds_2d(scene, cam_ob, me_ob):        #Returns bb coordinates of an object in camera space
     """
     Returns camera space bounding box of mesh object.
 
@@ -173,7 +174,7 @@ def generate_bb_and_render(task, rotation_labels, scene, number_of_frames, class
     # Set Scene
     scene = bpy.context.scene
 
-def rand_transform(x, y, z, task):
+def rand_transform(x, y, z, task):          #Returns np.array to use as vector randomized in given ranges
     if (task == "loc"):
         transform = np.array([random.uniform(x/-2, x/2), random.uniform(y/-2, y/2), random.uniform(z/-2, z/2)])
     elif (task == "scale"):
@@ -184,7 +185,6 @@ def rand_transform(x, y, z, task):
         z = z * math.pi / 180
         transform = np.array([random.uniform(x/-2, x/2), random.uniform(y/-2, y/2), random.uniform(z/-2, z/2)])
     return transform
-
 
 def augment(task, scene, number_of_frames, class_to_aug):
 
@@ -206,6 +206,8 @@ def augment(task, scene, number_of_frames, class_to_aug):
 
         class_to_aug_str = (str(class_to_aug))
         class_to_aug_str = class_to_aug_str.split('"')[1]
+
+        #Saving augmentation to JSON
         augment_dict = {
             f'{class_to_aug_str}': {
                 'translation variations': str(scene.data_generation.translation_variation_X) + ' ' + str(scene.data_generation.translation_variation_Y) + ' ' + str (scene.data_generation.translation_variation_Z),
@@ -264,6 +266,8 @@ def augment_enviro(scene, number_of_frames, task):
             spot_temperature.default_value = init_spot_temperature - init_spot_temperature * random.uniform(scene.data_generation.lamps_temperature/-2 , scene.data_generation.lamps_temperature/2)
             spot_temperature.keyframe_insert(data_path="default_value", frame = i)
 
+
+        #Saving augmentation to JSON
         augment_enviro_dict = {
                 'enviro': {
                     'z variation empty': scene.data_generation.empty_z_variation,
@@ -287,8 +291,7 @@ def augment_enviro(scene, number_of_frames, task):
         spot_temperature.default_value = init_spot_temperature
         plane_temperature.default_value = init_plane_temperature
 
-def dict_add(dict):
-    settings.GenerationSettings.dict_main |= dict
+#Saving transform to allow reverting all augmentation
 
 class StoreTransform:
 
@@ -320,13 +323,18 @@ def restore(saved):
         obj.rotation_euler = saved.rotations[i]
         obj.scale = saved.scale[i]
 
+#Exporting and loading JSONs
+
+def dict_add(dict):
+    settings.GenerationSettings.dict_main |= dict
+
 def load_json(scene):
     f = open(scene.data_generation.json_path)
     data = json.load(f)
     print('loading JSON')
     augment_from_json(data)
 
-def augment_from_json(data):
+def augment_from_json(data):        #Loading augmentation info from JSON to dict
 
     #Load Envirorment augmentation from JSON
 
@@ -357,8 +365,7 @@ def augment_from_json(data):
             break
     print(f'Succsefully loaded {f}')
 
-def set_enviro(dict):
-    #Used for augumenting the envirorment from dictionary
+def set_enviro(dict):           #Used for augumenting the envirorment from dictionary
 
     scene = bpy.data.scenes['Scene']
 
@@ -371,7 +378,8 @@ def set_enviro(dict):
 
     augment_enviro(scene, scene.data_generation.number_of_frames_aug_enviro, 'augment')
 
-def set_class(dict, name):
+def set_class(dict, name):          #Used for augmenting objects from dictionary
+
     scene = bpy.data.scenes['Scene']
 
     scene.data_generation.translation_variation_X = split_three(dict.get('translation variations'), 'x')

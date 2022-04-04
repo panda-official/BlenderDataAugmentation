@@ -5,6 +5,8 @@ from . import utils
 
 class GenerationSettings(bpy.types.PropertyGroup):
 
+    #All values in this Property Group are saved inside the blender file (.blend)
+
     #Load Settings
 
     json_path : bpy.props.StringProperty(
@@ -100,7 +102,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
         description="Variation of translation in X axis in meters",
         default = 0,
         min = 0,
-        max = 2
+        max = 0.5
         )
 
     translation_variation_Y : bpy.props.FloatProperty(
@@ -108,7 +110,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
         description="Variation of translation in Y axis in meters",
         default = 0,
         min = 0,
-        max = 2
+        max = 0.5
         )
 
     translation_variation_Z : bpy.props.FloatProperty(
@@ -116,7 +118,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
         description="Variation of translation in Z axis in meters",
         default = 0,
         min = 0,
-        max = 2
+        max = 0.5
         )
 
     scale_variation_X : bpy.props.FloatProperty(

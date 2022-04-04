@@ -36,7 +36,7 @@ class LoadPanel(bpy.types.Panel):
         row = box.row()
         row.prop(data_generation, "json_path")
         row.operator("load.data")
-    
+
 class DataPanel(bpy.types.Panel):
     bl_idname = "DATA_PANEL"
     bl_label = "Data Generation"
@@ -44,7 +44,7 @@ class DataPanel(bpy.types.Panel):
     bl_region_type = 'WINDOW'
     bl_context = "render"
 
-    
+
     def draw_header(self, context):
        layout = self.layout
        layout.label(text="PANDA")
@@ -82,14 +82,14 @@ class AugmentationPanel(bpy.types.Panel):
     bl_region_type = 'WINDOW'
     bl_context = "render"
 
-    
+
     def draw_header(self, context):
        layout = self.layout
        layout.label(text="PANDA")
 
     def draw(self, context):
         layout = self.layout
-        scene = context.scene  
+        scene = context.scene
         data_generation = scene.data_generation
 
         box_enviro = layout.box()
