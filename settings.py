@@ -161,7 +161,7 @@ class GenerationSettings(bpy.types.PropertyGroup):
     )
 
     empty_z_variation: bpy.props.FloatProperty(
-        name = "position",
+        name = "Z position variation",
         description="Variation of Z position of all lamps",
         default = 0,
         min = 0,

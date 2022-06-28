@@ -98,11 +98,11 @@ class AugmentationPanel(bpy.types.Panel):
         row3.prop(data_generation, "empty_z_variation_rot")
         row3.prop(data_generation, "empty_z_variation")
         row3.prop(data_generation, "lamps_jitter")
-        row4 = box_enviro.row()
-        row4.prop(data_generation, "number_of_frames_aug_enviro")
         row5 = box_enviro.row()
         row5.prop(data_generation, "lamps_strength")
         row5.prop(data_generation, "lamps_temperature")
+        row4 = box_enviro.row()
+        row4.prop(data_generation, "number_of_frames_aug_enviro")
         row6 = box_enviro.row()
         row6.operator("augment.generate_enviro")
 

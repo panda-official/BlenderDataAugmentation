@@ -224,9 +224,9 @@ def augment_enviro(scene, number_of_frames, task):
     plane = bpy.data.collections['Lights'].objects['PlaneLamp']
     spot = bpy.data.collections['Lights'].objects['Spot']
 
-    empty_init_loc = empty.location
-    plane_init_loc = plane.location
-    spot_init_loc = spot.location
+    empty_init_loc = copy.copy(empty.location)
+    plane_init_loc = copy.copy(plane.location)
+    spot_init_loc = copy.copy(spot.location)
     init_plane_strenght = 5.0
     init_spot_strenght = 8.0
     init_plane_temperature = 7500.0
