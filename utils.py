@@ -133,33 +133,34 @@ def generate_bb_and_render(task, rotation_labels, scene, number_of_frames, class
             bpy.ops.render.render(write_still=True)
 
         # Bounding Box information:
-        camera = bpy.data.collections['Camera'].all_objects[0]
-        with open(fp + str(i) + '.txt','w+') as datei:
-            for k in range(0, classes_count):
+        if (task != "render"):
+            camera = bpy.data.collections['Camera'].all_objects[0]
+            with open(fp + str(i) + '.txt','w+') as datei:
+                for k in range(0, classes_count):
 
-                objs = bpy.data.collections[f"Class{k}"].all_objects
+                    objs = bpy.data.collections[f"Class{k}"].all_objects
 
-                for obj in objs:
+                    for obj in objs:
 
-                    location = camera_view_bounds_2d(scene, camera, obj)
+                        location = camera_view_bounds_2d(scene, camera, obj)
 
-                    x,y,w,h = location
-                    if (x==0 and y==0 and w==0 and h==0):
-                        continue
-                    x = x + (w/2)
-                    y = y + (h/2)
-                    x_norm = round(x/scene.render.resolution_x, 6)
-                    y_norm = round(y/scene.render.resolution_y, 6)
-                    w_norm = round(w/scene.render.resolution_x, 6)
-                    h_norm = round(h/scene.render.resolution_y, 6)
+                        x,y,w,h = location
+                        if (x==0 and y==0 and w==0 and h==0):
+                            continue
+                        x = x + (w/2)
+                        y = y + (h/2)
+                        x_norm = round(x/scene.render.resolution_x, 6)
+                        y_norm = round(y/scene.render.resolution_y, 6)
+                        w_norm = round(w/scene.render.resolution_x, 6)
+                        h_norm = round(h/scene.render.resolution_y, 6)
 
-                    if (rotation_labels==True):
-                        matrix_string = get_rotation_matrix(obj)
-                    else:
-                        matrix_string = ""
+                        if (rotation_labels==True):
+                            matrix_string = get_rotation_matrix(obj)
+                        else:
+                            matrix_string = ""
 
-                    line = str(k)+' '+str(x_norm)+' '+str(y_norm)+' '+str(w_norm)+' '+str(h_norm)+' '+matrix_string+ '\n'
-                    datei.write(line)
+                        line = str(k)+' '+str(x_norm)+' '+str(y_norm)+' '+str(w_norm)+' '+str(h_norm)+' '+matrix_string+ '\n'
+                        datei.write(line)
 
         # restore resolution
         if (task=="preview"):
