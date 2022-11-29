@@ -1,6 +1,4 @@
-﻿
-
-# Panda data augmentation Blender add-on
+﻿# Panda data augmentation Blender add-on
 
 ## Blender
 
@@ -47,3 +45,6 @@ There is also an option to output all values used for augmentation and generatio
 This add-on to work requires a specific structure of the Blender file. A pre-made blender file can be found here: [template.blend](https://pandatechnology270-my.sharepoint.com/:u:/g/personal/maciejak_panda_technology/EToPhmK2dLZLqc9Wu0-rkBoBSFXO5TckmnyaYNtll2c12g?e=lt6kKD). If runned on Linux it is recomennded to lauchn the Blender from terminal window.  Detailed tutorial is aviable at: https://pandatech.atlassian.net/wiki/spaces/PDA/pages/1544781825/Data+Augmentation+Manual
 
 
+#### Notice
+
+<sup>BBox generation is based on https://blender.stackexchange.com/a/158236 by user juniorxsound, which is based on https://blender.stackexchange.com/a/7203 by user CodeManX</sup>
