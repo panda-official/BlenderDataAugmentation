@@ -1,15 +1,16 @@
 import bpy
 
+
 class RecoverPanel(bpy.types.Panel):
     bl_idname = "RECOVER_PANEL"
     bl_label = "Recover and Save Data"
-    bl_space_type = 'PROPERTIES'
-    bl_region_type = 'WINDOW'
+    bl_space_type = "PROPERTIES"
+    bl_region_type = "WINDOW"
     bl_context = "render"
 
     def draw_header(self, context):
-       layout = self.layout
-       layout.label(text="PANDA")
+        layout = self.layout
+        layout.label(text="DATA AUGMENTATION")
 
     def draw(self, context):
         layout = self.layout
@@ -17,16 +18,17 @@ class RecoverPanel(bpy.types.Panel):
         box.operator("transform.save")
         box.operator("transform.restore")
 
+
 class LoadPanel(bpy.types.Panel):
     bl_idname = "LOAD_PANEL"
     bl_label = "Load from file"
-    bl_space_type = 'PROPERTIES'
-    bl_region_type = 'WINDOW'
+    bl_space_type = "PROPERTIES"
+    bl_region_type = "WINDOW"
     bl_context = "render"
 
     def draw_header(self, context):
         layout = self.layout
-        layout.label(text="PANDA")
+        layout.label(text="DATA AUGMENTATION")
 
     def draw(self, context):
         layout = self.layout
@@ -37,17 +39,17 @@ class LoadPanel(bpy.types.Panel):
         row.prop(data_generation, "json_path")
         row.operator("load.data")
 
+
 class DataPanel(bpy.types.Panel):
     bl_idname = "DATA_PANEL"
     bl_label = "Data Generation"
-    bl_space_type = 'PROPERTIES'
-    bl_region_type = 'WINDOW'
+    bl_space_type = "PROPERTIES"
+    bl_region_type = "WINDOW"
     bl_context = "render"
 
-
     def draw_header(self, context):
-       layout = self.layout
-       layout.label(text="PANDA")
+        layout = self.layout
+        layout.label(text="DATA AUGMENTATION")
 
     def draw(self, context):
         layout = self.layout
@@ -75,17 +77,17 @@ class DataPanel(bpy.types.Panel):
         row2 = box2.row()
         row2.operator("json.export")
 
+
 class AugmentationPanel(bpy.types.Panel):
     bl_idname = "AUGMENTATION_PANEL"
     bl_label = "Augmentation"
-    bl_space_type = 'PROPERTIES'
-    bl_region_type = 'WINDOW'
+    bl_space_type = "PROPERTIES"
+    bl_region_type = "WINDOW"
     bl_context = "render"
 
-
     def draw_header(self, context):
-       layout = self.layout
-       layout.label(text="PANDA")
+        layout = self.layout
+        layout.label(text="DATA AUGMENTATION")
 
     def draw(self, context):
         layout = self.layout
@@ -127,4 +129,4 @@ class AugmentationPanel(bpy.types.Panel):
         box.prop(scene, "collection_to_augment")
         row = box.row()
         row.operator("augment.generate")
-        #row.operator("augment.clear")
+        # row.operator("augment.clear")

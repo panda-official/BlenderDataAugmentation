@@ -1,7 +1,6 @@
-
 bl_info = {
     "name": "Data Augmentation",
-    "blender": (2, 80, 0),
+    "blender": (3, 00, 0),
     "category": "Object",
     "author": "PANDA",
 }
@@ -12,9 +11,11 @@ from . import settings
 from . import operators
 from . import ui
 
+
 def menu_func(self, context):
     self.layout.operator(operators.BbGenerate.bl_idname)
     self.layout.operator(operators.RenderGenerate.bl_idname)
+
 
 classes = (
     operators.SaveTransformOperator,
@@ -34,15 +35,18 @@ classes = (
     ui.LoadPanel,
 )
 
-def register():         #runned when enabling the addon
+
+def register():  # runned when enabling the addon
     for cls in classes:
         bpy.utils.register_class(cls)
-    bpy.types.VIEW3D_MT_object.append(menu_func)  # Adds the new operator to an existing menu.
-    bpy.types.Scene.data_generation = bpy.props.PointerProperty(type=settings.GenerationSettings)
+    bpy.types.VIEW3D_MT_object.append(
+        menu_func
+    )  # Adds the new operator to an existing menu.
+    bpy.types.Scene.data_generation = bpy.props.PointerProperty(
+        type=settings.GenerationSettings
+    )
 
-def unregister():           #runned when disabling the addon
+
+def unregister():  # runned when disabling the addon
     for cls in classes:
         bpy.utils.unregister_class(cls)
-
-
-
