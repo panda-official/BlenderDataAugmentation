@@ -8,7 +8,7 @@ This add-on can be installed two ways:
 
 **1. Using Blender UI**
 
-	 1. Download release as .zip and don't unpack it
+	 1. Download `BlenderDataAugmentation.zip` from release and don't unpack it
 	 2. Launch Blender
 	 3. Go to: Edit > Preferences > Add-ons > Install..
 	 4. In the file viewer window navigate to downloaded archive and press Install Add-on
@@ -16,7 +16,7 @@ This add-on can be installed two ways:
 
  **2. By moving files**
 
-	 1. Download release as .zip and unpack it
+	 1. Download `BlenderDataAugmentation.zip` from release and unpack it
 	 2. Move the whole folder to Blender addon directory (see table below)
 	 3. Go to:Edit > Preferences > Add-ons
 	 4. Search for Data Augmentation

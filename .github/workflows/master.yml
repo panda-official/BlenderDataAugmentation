@@ -9,12 +9,11 @@ jobs:
       uses: thedoctor0/zip-release@main
       with:
         type: 'zip'
-        filename: 'release.zip'
+        filename: 'BlenderDataAugmentation.zip'
         directory: 'addon'
     - name: Upload Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "addon/release.zip"
-        tag: "latest"
+        artifacts: "addon/BlenderDataAugmentation.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
         allowUpdates: "true"
