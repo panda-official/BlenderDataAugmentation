@@ -17,3 +17,4 @@ jobs:
         artifacts: "addon/release.zip"
         tag: "latest"
         token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: "true"
