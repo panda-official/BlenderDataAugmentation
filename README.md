@@ -8,7 +8,7 @@ This add-on can be installed two ways:
 
 **1. Using Blender UI**
 
-	 1. Download this repository as .zip and don't unpack it
+	 1. Download release as .zip and don't unpack it
 	 2. Launch Blender
 	 3. Go to: Edit > Preferences > Add-ons > Install..
 	 4. In the file viewer window navigate to downloaded archive and press Install Add-on
@@ -16,7 +16,7 @@ This add-on can be installed two ways:
 
  **2. By moving files**
 
-	 1. Download this repository as .zip and unpack it
+	 1. Download release as .zip and unpack it
 	 2. Move the whole folder to Blender addon directory (see table below)
 	 3. Go to:Edit > Preferences > Add-ons
 	 4. Search for Data Augmentation
@@ -42,7 +42,7 @@ Apart from standard YOLO boundinbox labels, this add-on is capable of writing ro
 There is also an option to output all values used for augmentation and generation as a single JSON file, that file can be also later loaded into the addon to repeat the augmentation process.
 
 ## Use
-This add-on to work requires a specific structure of the Blender file. A pre-made blender file can be found here: [template.blend](https://pandatechnology270-my.sharepoint.com/:u:/g/personal/maciejak_panda_technology/EToPhmK2dLZLqc9Wu0-rkBoBSFXO5TckmnyaYNtll2c12g?e=lt6kKD). If runned on Linux it is recomennded to lauchn the Blender from terminal window.  Detailed tutorial is aviable at: https://pandatech.atlassian.net/wiki/spaces/PDA/pages/1544781825/Data+Augmentation+Manual
+This add-on to work requires a specific structure of the Blender file. A pre-made blender file can be found in `assets` directory. If runned on Linux it is recomennded to lauchn the Blender from terminal window.  Detailed tutorial is aviable in `docs` directory.
 
 
 #### Notice
