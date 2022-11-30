@@ -1,6 +1,8 @@
 import bpy
+
 import numpy as np
 import json
+
 from . import settings
 from . import utils
 
