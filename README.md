@@ -1,4 +1,4 @@
-﻿# Panda data augmentation Blender add-on
+﻿# Data augmentation Blender add-on
 
 ## Blender
 
